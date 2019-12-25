@@ -18,7 +18,7 @@ export default class App extends Component {
 	};
 
 	componentDidMount = () => {
-		fetchData();
+		this.fetchData();
 	};
 
 	render() {
