@@ -2,26 +2,27 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	background-color: #5cdb95;
+	h1 {
+		color: #05386b;
+		margin-left: 15px;
+	}
 
 	.list-container {
 		display: flex;
 		margin-right: 100px;
-		margin-top: 20px;
+		margin-top: 28px;
 		li {
 			margin-left: 50px;
 			list-style-type: none;
-			text-decoration: none;
-			padding: 10px 20px 10px 20px;
-			border-radius: 20px;
-			border: 10px groove;
-			background-color: #05386b;
 
 			.selected {
-				color: #379683;
+				color: salmon;
 			}
 			a {
 				color: white;
 				text-decoration: none;
+				font-weight: bold;
 			}
 		}
 	}
