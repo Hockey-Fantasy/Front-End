@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 
-export const NavBarList = () => {
+export const NavBarList = props => {
 	return (
 		<AppBar
 			style={{
@@ -49,6 +49,19 @@ export const NavBarList = () => {
 						>
 							<NavLink exact to="/signup" activeClassName="selected">
 								Signup
+							</NavLink>
+						</Button>
+					</li>
+					<li>
+						<Button
+							variant="outlined"
+							style={{
+								background: "#05386B"
+							}}
+							onClick={props.handleClick}
+						>
+							<NavLink exact to="/logout" activeClassName="selected">
+								Logout
 							</NavLink>
 						</Button>
 					</li>

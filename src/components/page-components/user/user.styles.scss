@@ -1,16 +1,46 @@
 .card-container {
+	display: flex;
+	flex-direction: column;
 	background: #5cdb95;
 	width: 25%;
 	margin-top: 5%;
 	margin-left: 37%;
+	justify-content: space-between;
 
 	.user-name {
 		text-align: center;
 		padding: 20px;
+		color: #edf5e1;
 	}
 	p {
 		text-align: center;
 		padding: 10px;
 		margin-top: 20px;
+	}
+	h3 {
+		text-align: center;
+	}
+
+	.user-card-btn {
+		background: #05386b;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		margin-left: 90px;
+		width: 45%;
+		border-radius: 10px;
+
+		a {
+			text-decoration: none;
+			color: #edf5e1;
+		}
+		a:hover {
+			color: #05386b;
+			background: #edf5e1;
+		}
+	}
+
+	.user-card-btn:hover {
+		color: #05386b;
+		background: #edf5e1;
 	}
 }

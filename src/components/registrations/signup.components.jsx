@@ -53,11 +53,12 @@ export default class SignUp extends Component {
 				password: ""
 			}
 		});
+		this.redirect();
 	};
 
-	// redirect = () => {
-	// 	this.props.history.push("/user");
-	// };
+	redirect = () => {
+		this.props.history.push("/user");
+	};
 	render() {
 		return (
 			<div>

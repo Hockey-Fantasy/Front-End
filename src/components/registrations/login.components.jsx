@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./forms.styles.scss";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 export default class Login extends Component {
@@ -32,6 +32,7 @@ export default class Login extends Component {
 		})
 			.then(resp => resp.json())
 			.then(data => {
+				console.log(data);
 				localStorage.setItem("token", data.jwt);
 				this.props.handleLogin(data.user);
 			})
@@ -42,11 +43,12 @@ export default class Login extends Component {
 				password: ""
 			}
 		});
+		this.redirect();
 	};
 
-	// redirect = () => {
-	// 	this.props.history.push("/user");
-	// };
+	redirect = () => {
+		this.props.history.push("/user");
+	};
 
 	render() {
 		return (

@@ -1,9 +1,9 @@
 import React from "react";
 import { NavBarList } from "./nav-bar-list.component";
-export const NavBarContainer = () => {
+export const NavBarContainer = props => {
 	return (
 		<div>
-			<NavBarList />
+			<NavBarList handleClick={props.handleClick} />
 		</div>
 	);
 };
