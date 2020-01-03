@@ -3,41 +3,80 @@ import Button from "@material-ui/core/Button";
 import "./create-team.styles.scss";
 
 export const CreateTeam = props => {
-	console.log("props.leagues: ", props.leagues);
 	const [createTeam, setCreateTeam] = useState({
 		name: "",
 		location: "",
 		image: ""
 	});
 
-	const [chosenLeague, setChosenLeague] = useState({});
+	const [chosenLeague, setChosenLeague] = useState({
+		id: "",
+		name: "",
+		location: ""
+	});
 
-	const renderLeagueForm = () => {
+	const handleChange = e => {
+		setCreateTeam({ ...createTeam, [e.target.name]: e.target.value });
+	};
+
+	const handleOptionsChange = e => {
+		const newLeague = props.leagues.find(
+			league => league.name === e.target.value
+		);
+		setChosenLeague({
+			...chosenLeague,
+			id: newLeague.id,
+			name: newLeague.name,
+			location: newLeague.location
+		});
+	};
+
+	const handleSubmit = e => {
+		e.preventDefault();
+
+		fetch("http://localhost:3001/teams", {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${props.token}`,
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				name: createTeam.name,
+				location: createTeam.location,
+				image: createTeam.image,
+				user_id: props.currentUser.id,
+				league_id: chosenLeague.id
+			})
+		})
+			.then(res => res.json())
+			.then(teamData => {
+				props.catchTeamId(teamData.id);
+				console.log(teamData);
+			})
+			.catch(error => console.log(error));
+
+		redirect();
+	};
+
+	const renderOptionsForm = () => {
 		return props.leagues.map(league => {
 			return (
-				<option onChange={handleChange} value={league}>
+				<option key={league.id} name="league">
 					{league.name}
 				</option>
 			);
 		});
 	};
 
-	const handleChange = e => {
-		debugger;
-		setCreateTeam({ ...createTeam, [e.target.name]: e.target.value });
-		setChosenLeague(e.target.value);
-		console.log(chosenLeague);
+	const redirect = () => {
+		props.history.push("/user/draft-players");
 	};
 
-	const handleSubmit = e => {
-		e.preventDefault();
-		const token = localStorage.getItem("token");
-		fetch("");
-	};
 	return (
 		<div>
 			<h1>Create Team</h1>
-			<form class="form-container" onSubmit={handleSubmit}>
+			<form className="form-container" onSubmit={handleSubmit}>
 				<input
 					placeholder="Name"
 					type="text"
@@ -60,8 +99,12 @@ export const CreateTeam = props => {
 					onChange={handleChange}
 				/>
 
-				<select className="option-input" value={chosenLeague}>
-					{renderLeagueForm()}
+				<select
+					className="option-input"
+					name="league"
+					onChange={handleOptionsChange}
+				>
+					{renderOptionsForm()}
 				</select>
 
 				<Button

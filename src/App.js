@@ -10,6 +10,8 @@ import { UserInfo } from "./components/page-components/user/user-info.component"
 import { CreateTeam } from "./components/page-components/team-creator/create-team.component";
 import { EditUser } from "./components/page-components/user/edit-user.component";
 import { Logout } from "./components/registrations/logout.component";
+import PlayersContainer from "./components/page-components/team-draft/players-container.component";
+
 export default class App extends Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +19,9 @@ export default class App extends Component {
 			users: [],
 			currentUser: {},
 			token: "",
-			errors: ""
+			errors: "",
+			leagues: [],
+			teamId: ""
 		};
 	}
 
@@ -33,13 +37,30 @@ export default class App extends Component {
 					users: userData
 				});
 			})
-			.catch(error => console.error("api errors:", error));
+			.catch(error => console.error(this.setState({ errors: error })));
+	};
+
+	fetchLeagues = token => {
+		fetch("http://localhost:3001/leagues", {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})
+			.then(res => res.json())
+			.then(leagueData => this.setState({ leagues: leagueData }))
+			.catch(err => console.error(err));
 	};
 
 	handleLogin = loginData => {
-		console.log(loginData);
 		this.setState({
 			currentUser: loginData
+		});
+	};
+
+	catchTeamId = teamID => {
+		console.log("teamID ", teamID);
+		this.setState({
+			teamId: teamID
 		});
 	};
 
@@ -61,10 +82,8 @@ export default class App extends Component {
 				.catch(err => console.error(err));
 			localStorage.setItem("currentUser", this.state.currentUser);
 			this.fetchUsers(token);
+			this.fetchLeagues(token);
 		}
-
-		// this.fetchData(token);
-		// this.fetchLeague();
 	};
 
 	handleClick = () => {
@@ -149,6 +168,8 @@ export default class App extends Component {
 							{...props}
 							currentUser={this.state.currentUser}
 							leagues={this.state.leagues}
+							token={this.state.token}
+							catchTeamId={this.catchTeamId}
 						/>
 					)}
 				/>
@@ -162,6 +183,18 @@ export default class App extends Component {
 				/>
 
 				<Route exact path="/logout" render={props => <Logout {...props} />} />
+
+				<Route
+					exact
+					path="/user/draft-players"
+					render={props => (
+						<PlayersContainer
+							{...props}
+							currentUser={this.state.currentUser}
+							teamId={this.state.teamId}
+						/>
+					)}
+				/>
 			</div>
 		);
 	}

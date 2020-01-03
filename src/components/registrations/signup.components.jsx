@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./forms.styles.scss";
-import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 export default class SignUp extends Component {
